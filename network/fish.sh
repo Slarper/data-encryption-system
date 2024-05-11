@@ -52,6 +52,19 @@ peer channel join -b $NETWORK_HOME/channel-artifacts/config.block --orderer loca
 peer channel list --orderer localhost:7050 --tls --cafile $ORDERER_CA
 
 
+set -x CORE_PEER_LOCALMSPID Org2MSP
+set -x CORE_PEER_TLS_ROOTCERT_FILE $PWD/crypto-config/peerOrganizations/org2.example.com/peers/peer0.org2.example.com/tls/ca.crt
+set -x CORE_PEER_MSPCONFIGPATH $PWD/crypto-config/peerOrganizations/org2.example.com/users/Admin@org2.example.com/msp
+set -x CORE_PEER_ADDRESS localhost:8051
+set -x CORE_PEER_LISTENADDRESS localhost:8051
+
+peer channel fetch config $NETWORK_HOME/channel-artifacts/config-org2.block -c $CHANNEL_NAME -o localhost:7050 --tls --cafile $ORDERER_CA
+# peer channel getinfo -c $CHANNEL_NAME -o localhost:7050 --tls true --cafile $ORDERER_CA
+peer channel join -b $NETWORK_HOME/channel-artifacts/config-org2.block --orderer localhost:7050 --tls --cafile ../crypto-config/ordererOrganizations/example.com/orderers/orderer.example.com/tls/ca.crt
+
+peer channel list --orderer localhost:7050 --tls --cafile $ORDERER_CA
+
+
 # docker-compose up -dd
 # fabric-ca-client register --id.name admin --id.secret adminpw --id.type client
 # fabric-ca-client enroll -u https://admin:adminpw@localhost:9054
