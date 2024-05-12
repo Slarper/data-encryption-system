@@ -5,7 +5,7 @@
 # ---------------------------------------------------------------------------
 PeerOrgs:
   # ---------------------------------------------------------------------------
-  # Org1
+  # org2
   # ---------------------------------------------------------------------------
   - Name: Org2
     Domain: org2.example.com
@@ -18,7 +18,7 @@ PeerOrgs:
     # organization.  This entry is a Spec.  See "Specs" section below for details.
     # ---------------------------------------------------------------------------
     # CA:
-    #    Hostname: ca # implicitly ca.org1.example.com
+    #    Hostname: ca # implicitly ca.org2.example.com
     #    Country: US
     #    Province: California
     #    Locality: San Francisco
@@ -50,14 +50,19 @@ PeerOrgs:
     #                     - {{ .CommonName }}
     #                     - {{ .Hostname }}
     # ---------------------------------------------------------------------------
-    # Specs:
-    #   - Hostname: foo # implicitly "foo.org1.example.com"
+    Specs:
+      - Hostname: peer0 # implicitly "foo.org2.example.com"
     #     CommonName: foo27.org5.example.com # overrides Hostname-based FQDN set above
-    #     SANS:
+        SANS:
     #       - "bar.{{.Domain}}"
     #       - "altfoo.{{.Domain}}"
     #       - "{{.Hostname}}.org6.net"
     #       - 172.16.10.31
+          - 127.0.0.1:9051
+          - localhost:9051
+          - localhost
+          - 172.18.0.1
+
     #   - Hostname: bar
     #   - Hostname: baz
 
